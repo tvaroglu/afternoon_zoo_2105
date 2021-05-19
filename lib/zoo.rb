@@ -48,4 +48,17 @@ class Zoo
     }
   end
 
+  def animals_sorted_by_weight
+    output = self.inventory.sort_by do |animal|
+      animal.weight.split(' ')[0].to_i
+    end
+    return output.reverse
+  end
+
+  def animal_hash
+    return self.inventory.group_by do |animal|
+      animal.kind[0].upcase
+    end
+  end
+
 end

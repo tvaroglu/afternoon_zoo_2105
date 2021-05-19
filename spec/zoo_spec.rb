@@ -83,4 +83,48 @@ RSpec.describe Zoo do
       "street_address" => "123 Main St"
     })
   end
+
+  it 'can sort animals by weight' do
+    zoo = Zoo.new
+
+    animals = [
+      Animal.new('Sea Otter', 10, 25),
+      Animal.new('Red Panda', 5, 70),
+      Animal.new('Capybara', 100, 150),
+      Animal.new('Dolphin', 150, 200)
+    ]
+
+    animals.each { |animal| zoo.add_animal(animal) }
+
+    expect(zoo.animals_sorted_by_weight[0].kind).to eq('Dolphin')
+    expect(zoo.animals_sorted_by_weight[1].kind).to eq('Capybara')
+    expect(zoo.animals_sorted_by_weight[2].kind).to eq('Sea Otter')
+    expect(zoo.animals_sorted_by_weight[3].kind).to eq('Red Panda')
+  end
+
+  it 'can return a hash that groups animal kinds by their first letter' do
+    zoo = Zoo.new
+
+    animals = [
+      Animal.new('Sea Otter', 10, 25),
+      Animal.new('Red Panda', 5, 70),
+      Animal.new('Capybara', 100, 150),
+      Animal.new('Dolphin', 150, 200),
+      Animal.new('Dingo', 65, 200)
+    ]
+
+    animals.each { |animal| zoo.add_animal(animal) }
+
+    expect(zoo.animal_hash).to be_an_instance_of(Hash)
+    expect(zoo.animal_hash.keys.length).to eq(4)
+
+    single_value_keys = ['C', 'R', 'S']
+    single_value_keys.each do |key|
+      expect(zoo.animal_hash[key].class).to eq(Array)
+      expect(zoo.animal_hash[key].length).to eq(1)
+    end
+
+    expect(zoo.animal_hash['D'].class).to eq(Array)
+    expect(zoo.animal_hash['D'].length).to eq(2)
+  end
 end
