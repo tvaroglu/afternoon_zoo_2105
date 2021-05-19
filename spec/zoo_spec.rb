@@ -45,4 +45,42 @@ RSpec.describe Zoo do
     expect(zoo.inventory[1].kind).to eq('Red Panda')
     expect(zoo.inventory[2].kind).to eq('Mongoose')
   end
+
+  it 'can return animals older than a given number of weeks' do
+    zoo = Zoo.new
+
+    animals = [
+      Animal.new('Sea Otter', 10, 25),
+      Animal.new('Red Panda', 5, 70),
+      Animal.new('Capybara', 100, 150),
+      Animal.new('Dolphin', 150, 200)
+    ]
+
+    animals.each { |animal| zoo.add_animal(animal) }
+
+    expect(zoo.animals_older_than(250)).to be_an_instance_of(Array)
+    expect(zoo.animals_older_than(250).length).to eq(0)
+    expect(zoo.animals_older_than(100).length).to eq(2)
+    expect(zoo.animals_older_than(10).length).to eq(4)
+  end
+
+  it 'can return total weight and details' do
+    zoo = Zoo.new
+
+    animals = [
+      Animal.new('Sea Otter', 10, 25),
+      Animal.new('Red Panda', 5, 70),
+      Animal.new('Capybara', 100, 150),
+      Animal.new('Dolphin', 150, 200)
+    ]
+
+    animals.each { |animal| zoo.add_animal(animal) }
+
+    expect(zoo.total_weight_of_animals).to eq(265)
+
+    expect(zoo.details).to eq({
+      "total_weight" => 265,
+      "street_address" => "123 Main St"
+    })
+  end
 end

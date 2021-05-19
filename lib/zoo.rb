@@ -26,5 +26,26 @@ class Zoo
     end
   end
 
+  def animals_older_than(x_weeks_old)
+    if x_weeks_old.class != Integer
+      x_weeks_old = x_weeks_old.to_s.to_i
+    end
+    return self.inventory.select do |animal|
+      animal.age.split(' ')[0].to_i > x_weeks_old
+    end
+  end
+
+  def total_weight_of_animals
+    return self.inventory.reduce(0) do |total_weight, animal|
+      total_weight + animal.weight.split(' ')[0].to_i
+    end
+  end
+
+  def details
+    return {
+      'total_weight' => self.total_weight_of_animals,
+      'street_address' => self.street
+    }
+  end
 
 end
